@@ -46,11 +46,11 @@ public class Route {
      * @param streetTurnedOnto -- the street id onto which the next leg of the route turns
      * @return -- true if the leg was added to the route.
      */
-    public Boolean appendTurn(TurnDirection turn, Street streetTurnedOnto ) {
+    public Boolean appendTurn(TurnDirection turn, String streetTurnedOnto ) {
         if (turn == null || streetTurnedOnto == null) {
             return false;
         }
-        Leg newLeg = new Leg(turn, streetTurnedOnto.getId());
+        Leg newLeg = new Leg(turn, streetTurnedOnto);
         legs.add(newLeg);
         return true;
     }
@@ -61,10 +61,10 @@ public class Route {
      */
 
     public static List<Street> streets = new ArrayList<>();
-    public static Street lookupStreet(String streetId) {
+    public static String lookupStreet(String streetId) {
         for (Street street : streets) {
             if (street.getId().equals(streetId)) {
-                return street;
+                return street.getId();
             }
         }
         return null;
@@ -77,8 +77,9 @@ public class Route {
      * @param legNumber -- the leg number for which we want the next street.
      * @return -- the street id of the next leg, or null if there is an error.
      */
-    public static Street turnOnto(int legNumber) {
+    public static String turnOnto(int legNumber) {
         // check if the leg number is valid
+
         if (legNumber < 1 || legNumber > legs.size()) {
             return null;
         }
@@ -88,7 +89,7 @@ public class Route {
 
         // look up the street ID of the end intersection of the leg
 //        int endIntersection = leg.getEndIntersection();
-        Street streetId = lookupStreet(leg.getStreet());
+        String streetId = lookupStreet(leg.getStreet());
 
         return streetId;
     }

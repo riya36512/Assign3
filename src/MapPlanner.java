@@ -20,6 +20,7 @@ public class MapPlanner {
     public Boolean depotLocation( Location depot ) {
         for (Street d : streets) {
             if (d.getId().equals(depot.getStreetId())) {
+//                Location l1=new Location(d.getId(),);
                 return true;
             }
         }
