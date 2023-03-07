@@ -1,3 +1,4 @@
+import java.util.*;
 public class MapPlanner {
 
     /**
@@ -5,7 +6,10 @@ public class MapPlanner {
      * is needed to identify an actual turn in a route rather than a straight-on driving.
      * @param degrees
      */
-    public MapPlanner( int degrees ) {}
+    private int degrees;
+    public MapPlanner( int degrees ) {
+        this.degrees = degrees;
+    }
 
     /**
      * Identify the location of the depot.  That location is used as the starting point of any route request
@@ -14,7 +18,12 @@ public class MapPlanner {
      * @return -- true if the depot was set.  False if there was a problem in setting the depot location.
      */
     public Boolean depotLocation( Location depot ) {
-        return true;
+        for (Street d : streets) {
+            if (d.getId().equals(depot.getStreetId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -31,9 +40,24 @@ public class MapPlanner {
      * @param end -- coordinates of the ending entersection for the street
      * @return -- true if the street could be added.  False if the street isn't available in the map.
      */
+    public List<Street> streets = new ArrayList<>();
     public Boolean addStreet( String streetId, Point start, Point end ) {
+        // Check if the street already exists
+        for (Street street : streets) {
+            if (street.getId().equals(streetId)) {
+                return false;
+            }
+        }
+
+        // Create a new street with the given parameters
+        Street street = new Street(streetId, start, end);
+
+        // Add the street to the list of streets
+        streets.add(street);
+
         return true;
     }
+
 
     /**
      *  Given a depot location, return the street id of the street that is furthest away from the depot by distance,
@@ -53,3 +77,4 @@ public class MapPlanner {
         return null;
     }
 }
+

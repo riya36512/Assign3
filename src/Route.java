@@ -8,38 +8,27 @@ import java.util.ArrayList;
 
 // Class to represent a leg of the route, including the start and end intersections and the turn direction
 class Leg {
-    private int startIntersection;
-    private int endIntersection;
-    private double length;
-    private TurnDirection turnDirection;
 
-    public Leg(int startIntersection, int endIntersection, double length, TurnDirection turnDirection) {
-        this.startIntersection = startIntersection;
-        this.endIntersection = endIntersection;
-        this.length = length;
-        this.turnDirection = turnDirection;
-    }
+    private TurnDirection turn;
+    private String street;
 
-    public int getStartIntersection() {
-        return startIntersection;
-    }
-
-    public int getEndIntersection() {
-        return endIntersection;
-    }
-
-    public double getLength() {
-        return length;
+    public Leg(TurnDirection turn, String street) {
+        this.turn = turn;
+        this.street = street;
     }
 
     public TurnDirection getTurnDirection() {
-        return turnDirection;
+        return turn;
+    }
+
+    public String getStreet() {
+        return street;
     }
 }
 
 public class Route {
 
-    private List<Leg> legs;
+    private static List<Leg> legs;
 
     // Constructor to create an empty route
     public Route() {
@@ -57,23 +46,28 @@ public class Route {
      * @param streetTurnedOnto -- the street id onto which the next leg of the route turns
      * @return -- true if the leg was added to the route.
      */
-    public Boolean appendTurn( TurnDirection turn, String streetTurnedOnto ) {
-        // get the end intersection of the last leg in the route
-        int startIntersection = route.isEmpty() ? 0 : route.get(route.size() - 1).getEndIntersection();
-
-        // look up the end intersection of the current leg based on the street id
-        int endIntersection = Leg.lookupIntersection(streetTurnedOnto);
-
-        // calculate the length of the current leg
-        double length = calculateLength(startIntersection, endIntersection);
-
-        // create the new leg
-        Leg leg = new Leg(startIntersection, endIntersection, length, turn);
-
-        // add the new leg to the route
-        route.add(leg);
-
+    public Boolean appendTurn(TurnDirection turn, Street streetTurnedOnto ) {
+        if (turn == null || streetTurnedOnto == null) {
+            return false;
+        }
+        Leg newLeg = new Leg(turn, streetTurnedOnto.getId());
+        legs.add(newLeg);
         return true;
+    }
+    /**
+     * Given a street ID, return the corresponding Street object
+     * @param streetId - the ID of the street to look up
+     * @return - the Street object with the given ID, or null if the street is not found
+     */
+
+    public static List<Street> streets = new ArrayList<>();
+    public static Street lookupStreet(String streetId) {
+        for (Street street : streets) {
+            if (street.getId().equals(streetId)) {
+                return street;
+            }
+        }
+        return null;
     }
 
     /**
@@ -83,18 +77,18 @@ public class Route {
      * @param legNumber -- the leg number for which we want the next street.
      * @return -- the street id of the next leg, or null if there is an error.
      */
-    public static String turnOnto(int legNumber) {
+    public static Street turnOnto(int legNumber) {
         // check if the leg number is valid
-        if (legNumber < 1 || legNumber > route.size()) {
+        if (legNumber < 1 || legNumber > legs.size()) {
             return null;
         }
 
         // get the leg corresponding to the given leg number
-        Leg leg = route.get(legNumber - 1);
+        Leg leg = legs.get(legNumber - 1);
 
         // look up the street ID of the end intersection of the leg
-        int endIntersection = leg.getEndIntersection();
-        String streetId = lookupStreet(endIntersection);
+//        int endIntersection = leg.getEndIntersection();
+        Street streetId = lookupStreet(leg.getStreet());
 
         return streetId;
     }
@@ -108,12 +102,12 @@ public class Route {
      */
     public static TurnDirection turnDirection(int legNumber) {
         // check if the leg number is valid
-        if (legNumber < 1 || legNumber > route.size()) {
+        if (legNumber < 1 || legNumber > legs.size()) {
             return null;
         }
 
         // get the leg corresponding to the given leg number
-        Leg leg = route.get(legNumber - 1);
+        Leg leg = legs.get(legNumber - 1);
 
         // return the turn direction of the leg
         return leg.getTurnDirection();
@@ -136,10 +130,10 @@ public class Route {
      */
     public Double length() {
 
-        double length = 0.0;
-        for (Leg leg : legs) {
-            length += leg.getLength();
-        }
+        double length = 0;
+//        for (Street streets : streets) {
+//            length += streets.;
+//        }
         return length;
     }
 
@@ -158,42 +152,7 @@ public class Route {
      */
     public List<SubRoute> loops() {
         List<SubRoute> loops = new ArrayList<>();
-        List<Integer> loopIndices = new ArrayList<>();
-        int currentIndex = 0;
-        for (Leg leg : legs) {
-            if (loopIndices.contains(currentIndex)) {
-                // We're already in a loop, so check if this leg completes it
-                SubRoute lastLoop = loops.get(loops.size() - 1);
-                if (leg.getEndIntersection() == lastLoop.getStartIntersection()) {
-                    lastLoop.appendLeg(leg);
-                    loopIndices.add(currentIndex);
-                } else {
-                    loopIndices.remove(Integer.valueOf(currentIndex));
-                }
-            } else {
-                // Check if this leg starts a new loop
-                int startIntersection = leg.getStartIntersection();
-                int endIntersection = leg.getEndIntersection();
-                for (int i = 0; i < currentIndex; i++) {
-                    SubRoute subRoute = loops.get(i);
-                    if (subRoute.getStartIntersection() == endIntersection &&
-                            subRoute.getEndIntersection() == startIntersection) {
-                        subRoute.insertLeg(leg);
-                        loopIndices.add(i);
-                        break;
-                    }
-                }
-                // If this leg doesn't start or complete a loop, just add it to the route
-                if (!loopIndices.contains(currentIndex)) {
-                    SubRoute subRoute = new SubRoute(leg);
-                    loops.add(subRoute);
-                    if (startIntersection == endIntersection) {
-                        loopIndices.add(currentIndex);
-                    }
-                }
-            }
-            currentIndex++;
-        }
+
         return loops;
     }
 
@@ -212,5 +171,5 @@ public class Route {
         }
         return new Route(simplifiedLegs);
     }
-    }
 }
+
