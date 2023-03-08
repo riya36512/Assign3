@@ -118,16 +118,15 @@ public class Route {
      */
     public Double length() {
 
-        double length = 0;
+        double length = 0.0;
         for(Street street: streets){
             if(street.getId() == legs.get(0).getStreet() || street.getId() == legs.get(legs.size()-1).getStreet()){
-                length += (Math.sqrt(Math.pow(street.getEnd().getX() - street.getStart().getX(), 2) + Math.pow(street.getEnd().getY() - street.getStart().getY(), 2)))/2;
+                length += (double) (Math.sqrt(Math.pow(street.getEnd().getX() - street.getStart().getX(), 2) + Math.pow(street.getEnd().getY() - street.getStart().getY(), 2)))/2;
             }
             else{
-                length += Math.sqrt(Math.pow(street.getEnd().getX() - street.getStart().getX(), 2) + Math.pow(street.getEnd().getY() - street.getStart().getY(), 2));
+                length += (double) Math.sqrt(Math.pow(street.getEnd().getX() - street.getStart().getX(), 2) + Math.pow(street.getEnd().getY() - street.getStart().getY(), 2));
             }
         }
-
         return length;
     }
 

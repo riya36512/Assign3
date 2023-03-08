@@ -60,7 +60,10 @@ public class Main {
 //        Route r2 = Route.simplify();
 //        System.out.println(r2.legs());
 
-        System.out.println(rou1.length());
+
+        double length = rou1.length();
+        System.out.println(length);
+
 
     }
 }
