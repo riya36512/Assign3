@@ -54,21 +54,8 @@ public class Route {
         legs.add(newLeg);
         return true;
     }
-    /**
-     * Given a street ID, return the corresponding Street object
-     * @param streetId - the ID of the street to look up
-     * @return - the Street object with the given ID, or null if the street is not found
-     */
 
     public static List<Street> streets = new ArrayList<>();
-    public static String lookupStreet(String streetId) {
-        for (Street street : streets) {
-            if (street.getId().equals(streetId)) {
-                return street.getId();
-            }
-        }
-        return null;
-    }
 
     /**
      * Given a route, report whether the street of the given leg number of the route.
@@ -89,7 +76,7 @@ public class Route {
 
         // look up the street ID of the end intersection of the leg
 //        int endIntersection = leg.getEndIntersection();
-        String streetId = lookupStreet(leg.getStreet());
+        String streetId = leg.getStreet();
 
         return streetId;
     }
@@ -118,7 +105,7 @@ public class Route {
      * Report how many legs exist in the current route
      * @return -- the number of legs in this route.
      */
-    public int legs() {
+    public static int legs() {
         return legs.size();
     }
 
@@ -132,11 +119,18 @@ public class Route {
     public Double length() {
 
         double length = 0;
-//        for (Street streets : streets) {
-//            length += streets.;
-//        }
+        for(Street street: streets){
+            if(street.getId() == legs.get(0).getStreet() || street.getId() == legs.get(legs.size()-1).getStreet()){
+                length += (Math.sqrt(Math.pow(street.getEnd().getX() - street.getStart().getX(), 2) + Math.pow(street.getEnd().getY() - street.getStart().getY(), 2)))/2;
+            }
+            else{
+                length += Math.sqrt(Math.pow(street.getEnd().getX() - street.getStart().getX(), 2) + Math.pow(street.getEnd().getY() - street.getStart().getY(), 2));
+            }
+        }
+
         return length;
     }
+
 
     /**
      * Given a route, return all loops in the route.
@@ -163,7 +157,7 @@ public class Route {
      * along your current path.
      * @return -- the simplified route.
      */
-    public Route simplify() {
+    public static Route simplify() {
         List<Leg> simplifiedLegs = new ArrayList<>();
         for (Leg leg : legs) {
             if (leg.getTurnDirection() != TurnDirection.Straight) {

@@ -13,15 +13,15 @@ public class Main {
 
         obj.addStreet("A",p1,p2);
         obj.addStreet("B",p1,p4);
-        obj.addStreet("C",p5,p4);
-        obj.addStreet("D",p1,p4);
-        obj.addStreet("E",p1,p3);
-        obj.addStreet("F",p1,p5);
-        Location l1 = new Location("D",StreetSide.Right);
-        Boolean loc = obj.depotLocation(l1);
-        System.out.println(loc);
+        obj.addStreet("C",p2,p3);
 
-        Leg leg1 = new Leg(TurnDirection.Right,"A" );
+        obj.addStreet("E",p3,p5);
+        obj.addStreet("F",p1,p5);
+//        Location l1 = new Location("D",StreetSide.Right);
+//        Boolean loc = obj.depotLocation(l1);
+//        System.out.println(loc);
+
+/*        Leg leg1 = new Leg(TurnDirection.Right,"A" );
         Leg leg2 = new Leg(TurnDirection.Right,"B" );
         Leg leg3 = new Leg(TurnDirection.Straight,"B" );
         Leg leg4 = new Leg(TurnDirection.Right,"D" );
@@ -39,6 +39,28 @@ public class Main {
         System.out.println(strID);
 
         TurnDirection turn = r1.turnDirection(3);
-        System.out.println(turn);
+        System.out.println(turn);*/
+        Leg leg1 = new Leg(TurnDirection.Right,"A" );
+        Leg leg2 = new Leg(TurnDirection.Straight,"C");
+        Leg leg3 = new Leg(TurnDirection.Straight,"E");
+        ArrayList<Leg> LEGS  = new ArrayList<>();
+        LEGS.add(leg1);
+        LEGS.add(leg2);
+        LEGS.add(leg3);
+        Route rou1 = new Route(LEGS);
+        Boolean ans  = rou1.appendTurn(TurnDirection.UTurn,"E");
+        System.out.println(ans);
+
+        int totalLegs = Route.legs();
+        System.out.println(totalLegs);
+
+        System.out.println(Route.turnOnto(2));
+        System.out.println(Route.turnDirection(4));
+
+//        Route r2 = Route.simplify();
+//        System.out.println(r2.legs());
+
+        System.out.println(rou1.length());
+
     }
 }
