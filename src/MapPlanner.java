@@ -68,16 +68,16 @@ public class MapPlanner {
         double maxDistance = 0.0;
         String furthestSt = null;
 
-        Point depotStrat = null;
+        Point depotStart = null;
         Point depotEnd = null;
 
         for (Street streetLocation : streets) {
 
             if(streetLocation.getId() == depot.getStreetId()){
-                depotStrat = streetLocation.getStart();
+                depotStart = streetLocation.getStart();
                 depotEnd = streetLocation.getEnd();
             }
-            double distance = Math.sqrt(Math.pow(streetLocation.getEnd().getX() - depotStrat.getX(), 2) + Math.pow(streetLocation.getEnd().getY() - depotEnd.getY(), 2));
+            double distance = Math.sqrt(Math.pow(streetLocation.getEnd().getX() - depotStart.getX(), 2) + Math.pow(streetLocation.getEnd().getY() - depotEnd.getY(), 2));
             if (distance > maxDistance) {
                 maxDistance = distance;
                 furthestSt = streetLocation.getId();
@@ -96,7 +96,13 @@ public class MapPlanner {
      * @param destination -- the destination for the route
      * @return -- the route to the destination, or null if no route exists.
      */
+
+    List<Leg> route = new ArrayList<>();
     public Route routeNoLeftTurn( Location destination ) {
+        for(int i=0;i<streets.size();i++)
+        {
+
+        }
         return null;
     }
 }

@@ -29,12 +29,23 @@ public class Route {
      * @param streetTurnedOnto -- the street id onto which the next leg of the route turns
      * @return -- true if the leg was added to the route.
      */
-    public Boolean appendTurn(TurnDirection turn, String streetTurnedOnto , Point start, Point end) {
+    public Boolean appendTurn(TurnDirection turn, String streetTurnedOnto) {
         if (turn == null || streetTurnedOnto == null) {
             return false;
         }
-        Leg newLeg = new Leg(turn, streetTurnedOnto, start, end);
+        Leg newLeg = new Leg(turn, streetTurnedOnto);
         legs.add(newLeg);
+        Point start = null;
+        Point end = null;
+        for (Street st: tempStreets){
+            if(st.getId() == streetTurnedOnto)
+            {
+                start = st.getStart();
+                end = st.getEnd();
+            }
+        }
+        Street newst = new Street(streetTurnedOnto,start,end);
+        tempStreets.add(newst);
         return true;
     }
 
@@ -102,18 +113,7 @@ public class Route {
      * @return -- the length of the current route.
      */
     public Double length() {
-
-        double length = 0.0;
-        for(Leg leg: legs){
-
-            if(leg.getStreet() == legs.get(0).getStreet() || leg.getStreet() == legs.get(legs.size()-1).getStreet()){
-                length += (double) (Math.sqrt(Math.pow(leg.endLeg.getX() - leg.startLeg.getX(),2) + Math.pow(leg.endLeg.getY() - leg.startLeg.getY(), 2)))/2;
-            }
-            else{
-                length += (double) Math.sqrt(Math.pow(leg.endLeg.getX() - leg.startLeg.getX(),2) + Math.pow(leg.endLeg.getY() - leg.startLeg.getY(), 2));
-            }
-        }
-        return length;
+        return null;
     }
 
 

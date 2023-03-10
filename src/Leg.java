@@ -1,28 +1,21 @@
 public class Leg {
 
     private TurnDirection turn;
-    private String street;
-    static Point startLeg;
-    static Point endLeg;
+    private static String street;
 
-    public Leg(TurnDirection turn, String street, Point startLeg, Point endLeg) {
+
+    public Leg(TurnDirection turn, String street) {
         this.turn = turn;
         this.street = street;
-        this.startLeg= startLeg;
-        this.endLeg = endLeg;
+
     }
 
     public TurnDirection getTurnDirection() {
         return turn;
     }
 
-    public String getStreet() {
+    public static String getStreet() {
         return street;
     }
-    public static Point getStartLeg(){
-        return startLeg;
-    }
-    public static Point getEndLeg(){
-        return endLeg;
-    }
+
 }

@@ -47,7 +47,7 @@ public class SubRoute {
 
         // Add each leg of the subroute to the new Route
         for (int i = subrouteStart(); i <= subrouteEnd(); i++) {
-            subRoute.appendTurn(Route.turnDirection(i), Route.turnOnto(i),Leg.getStartLeg(), Leg.getEndLeg());
+            subRoute.appendTurn(Route.turnDirection(i), Route.turnOnto(i));
         }
 
         return subRoute;
