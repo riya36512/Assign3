@@ -17,10 +17,11 @@ public class MapPlanner {
      * @param depot -- the street ID and side of the street (left or right) where we find the depot
      * @return -- true if the depot was set.  False if there was a problem in setting the depot location.
      */
+    Location depotLoc;
     public Boolean depotLocation( Location depot ) {
         for (Street d : streets) {
             if (d.getId().equals(depot.getStreetId())) {
- //               Location l1=new Location(d.getId(),);
+               depotLoc = new Location(d.getId(),StreetSide.Right);
                 return true;
             }
         }
@@ -54,18 +55,39 @@ public class MapPlanner {
         Street street = new Street(streetId, start, end);
 
         // Add the street to the list of streets
-        streets.add(street);
 
+        streets.add(street);
         return true;
     }
-
-
     /**
      *  Given a depot location, return the street id of the street that is furthest away from the depot by distance,
      *  allowing for left turns to get to the street.
      */
+
+    public String  FindfurthestStreet(List<Street> streets, Location depot){
+        double maxDistance = 0.0;
+        String furthestSt = null;
+
+        Point depotStrat = null;
+        Point depotEnd = null;
+
+        for (Street streetLocation : streets) {
+
+            if(streetLocation.getId() == depot.getStreetId()){
+                depotStrat = streetLocation.getStart();
+                depotEnd = streetLocation.getEnd();
+            }
+            double distance = Math.sqrt(Math.pow(streetLocation.getEnd().getX() - depotStrat.getX(), 2) + Math.pow(streetLocation.getEnd().getY() - depotEnd.getY(), 2));
+            if (distance > maxDistance) {
+                maxDistance = distance;
+                furthestSt = streetLocation.getId();
+            }
+        }
+        return furthestSt;
+    }
     public String furthestStreet() {
-        return null;
+        String street = FindfurthestStreet(streets,depotLoc);
+        return street;
     }
 
     /**

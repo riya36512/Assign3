@@ -7,24 +7,7 @@ import java.util.ArrayList;
  */
 
 // Class to represent a leg of the route, including the start and end intersections and the turn direction
-class Leg {
 
-    private TurnDirection turn;
-    private String street;
-
-    public Leg(TurnDirection turn, String street) {
-        this.turn = turn;
-        this.street = street;
-    }
-
-    public TurnDirection getTurnDirection() {
-        return turn;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-}
 
 public class Route {
 
@@ -46,16 +29,14 @@ public class Route {
      * @param streetTurnedOnto -- the street id onto which the next leg of the route turns
      * @return -- true if the leg was added to the route.
      */
-    public Boolean appendTurn(TurnDirection turn, String streetTurnedOnto ) {
+    public Boolean appendTurn(TurnDirection turn, String streetTurnedOnto , Point start, Point end) {
         if (turn == null || streetTurnedOnto == null) {
             return false;
         }
-        Leg newLeg = new Leg(turn, streetTurnedOnto);
+        Leg newLeg = new Leg(turn, streetTurnedOnto, start, end);
         legs.add(newLeg);
         return true;
     }
-
-    public static List<Street> streets = new ArrayList<>();
 
     /**
      * Given a route, report whether the street of the given leg number of the route.
@@ -108,6 +89,10 @@ public class Route {
     public static int legs() {
         return legs.size();
     }
+    List<Street> tempStreets =new ArrayList<>();
+    public void streetPassLength(ArrayList<Street> tempS){
+        tempStreets=tempS;
+    }
 
     /**
      * Report the length of the current route.  Length is computed in metres by Euclidean distance.
@@ -119,12 +104,13 @@ public class Route {
     public Double length() {
 
         double length = 0.0;
-        for(Street street: streets){
-            if(street.getId() == legs.get(0).getStreet() || street.getId() == legs.get(legs.size()-1).getStreet()){
-                length += (double) (Math.sqrt(Math.pow(street.getEnd().getX() - street.getStart().getX(), 2) + Math.pow(street.getEnd().getY() - street.getStart().getY(), 2)))/2;
+        for(Leg leg: legs){
+
+            if(leg.getStreet() == legs.get(0).getStreet() || leg.getStreet() == legs.get(legs.size()-1).getStreet()){
+                length += (double) (Math.sqrt(Math.pow(leg.endLeg.getX() - leg.startLeg.getX(),2) + Math.pow(leg.endLeg.getY() - leg.startLeg.getY(), 2)))/2;
             }
             else{
-                length += (double) Math.sqrt(Math.pow(street.getEnd().getX() - street.getStart().getX(), 2) + Math.pow(street.getEnd().getY() - street.getStart().getY(), 2));
+                length += (double) Math.sqrt(Math.pow(leg.endLeg.getX() - leg.startLeg.getX(),2) + Math.pow(leg.endLeg.getY() - leg.startLeg.getY(), 2));
             }
         }
         return length;
