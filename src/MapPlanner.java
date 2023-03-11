@@ -97,12 +97,25 @@ public class MapPlanner {
      * @return -- the route to the destination, or null if no route exists.
      */
 
+    public double distance(Point p, Point q){
+
+    }
+
     Location depot;
 
     List<Leg> route = new ArrayList<>();
     public Route routeNoLeftTurn( Location destination ) throws RuntimeException{
 
-         return null;
+        String dest = destination.getStreetId();
+        Queue<Street> queue = new LinkedList<>(streets);
+        List<Location> visited = new ArrayList<>();
+        for(Street str: streets){
+            if(str.getId()==depot.getStreetId()){
+                visited.add(depot);
+            }
+
+        }
+        return null;
 
     }
 }

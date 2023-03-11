@@ -116,10 +116,12 @@ public class Route {
         double length = 0.0;
 
         for(Leg leg: legs){
-            if(leg.getStreet() == legs.get(0).getStreet() || leg.getStreet() == legs.get(legs.size()-1).getStreet()){
+            if(leg.getStreet().getId() == legs.get(0).getStreet().getId() || leg.getStreet().getId() == legs.get(legs.size()-1).getStreet().getId()){
+                //System.out.println(leg.getStreet() + " " + leg.getStreet().getEnd().getX() + " " +  leg.getStreet().getStart().getX() + " " +leg.getStreet().getEnd().getY() + " " + leg.getStreet().getStart().getY());
                 length += (Math.sqrt(Math.pow(leg.getStreet().getEnd().getX() - leg.getStreet().getStart().getX(),2) +Math.pow(leg.getStreet().getEnd().getY() - leg.getStreet().getStart().getY(),2)))/2;
             }
             else{
+                //System.out.println(leg.getStreet() + " " + leg.getStreet().getEnd().getX() + " " +  leg.getStreet().getStart().getX() + " " +leg.getStreet().getEnd().getY() + " " + leg.getStreet().getStart().getY());
                 length += (Math.sqrt(Math.pow(leg.getStreet().getEnd().getX() - leg.getStreet().getStart().getX(),2) +Math.pow(leg.getStreet().getEnd().getY() - leg.getStreet().getStart().getY(),2)));
             }
         }
