@@ -29,7 +29,7 @@ public class Route {
      * @param streetTurnedOnto -- the street id onto which the next leg of the route turns
      * @return -- true if the leg was added to the route.
      */
-    public Boolean appendTurn(TurnDirection turn, String streetTurnedOnto) {
+    public Boolean appendTurn(TurnDirection turn, Street streetTurnedOnto) {
         if (turn == null || streetTurnedOnto == null) {
             return false;
         }
@@ -38,13 +38,13 @@ public class Route {
         Point start = null;
         Point end = null;
         for (Street st: tempStreets){
-            if(st.getId() == streetTurnedOnto)
+            if(st.getId() == streetTurnedOnto.getId())
             {
                 start = st.getStart();
                 end = st.getEnd();
             }
         }
-        Street newst = new Street(streetTurnedOnto,start,end);
+        Street newst = new Street(streetTurnedOnto.getId(),start,end);
         tempStreets.add(newst);
         return true;
     }
@@ -68,7 +68,7 @@ public class Route {
 
         // look up the street ID of the end intersection of the leg
 //        int endIntersection = leg.getEndIntersection();
-        String streetId = leg.getStreet();
+        String streetId = leg.getStreet().getId();
 
         return streetId;
     }
@@ -113,7 +113,17 @@ public class Route {
      * @return -- the length of the current route.
      */
     public Double length() {
-        return null;
+        double length = 0.0;
+
+        for(Leg leg: legs){
+            if(leg.getStreet() == legs.get(0).getStreet() || leg.getStreet() == legs.get(legs.size()-1).getStreet()){
+                length += (Math.sqrt(Math.pow(leg.getStreet().getEnd().getX() - leg.getStreet().getStart().getX(),2) +Math.pow(leg.getStreet().getEnd().getY() - leg.getStreet().getStart().getY(),2)))/2;
+            }
+            else{
+                length += (Math.sqrt(Math.pow(leg.getStreet().getEnd().getX() - leg.getStreet().getStart().getX(),2) +Math.pow(leg.getStreet().getEnd().getY() - leg.getStreet().getStart().getY(),2)));
+            }
+        }
+        return length;
     }
 
 

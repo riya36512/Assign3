@@ -97,13 +97,13 @@ public class MapPlanner {
      * @return -- the route to the destination, or null if no route exists.
      */
 
-    List<Leg> route = new ArrayList<>();
-    public Route routeNoLeftTurn( Location destination ) {
-        for(int i=0;i<streets.size();i++)
-        {
+    Location depot;
 
-        }
-        return null;
+    List<Leg> route = new ArrayList<>();
+    public Route routeNoLeftTurn( Location destination ) throws RuntimeException{
+
+         return null;
+
     }
 }
 

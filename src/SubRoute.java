@@ -44,11 +44,11 @@ public class SubRoute {
      */
     public Route extractRoute() {
         Route subRoute = new Route();
-
-        // Add each leg of the subroute to the new Route
-        for (int i = subrouteStart(); i <= subrouteEnd(); i++) {
-            subRoute.appendTurn(Route.turnDirection(i), Route.turnOnto(i));
-        }
+//
+//        // Add each leg of the subroute to the new Route
+//        for (int i = subrouteStart(); i <= subrouteEnd(); i++) {
+//            subRoute.appendTurn(Route.turnDirection(i), Route.turnOnto(i));
+//        }
 
         return subRoute;
     }

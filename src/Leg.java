@@ -1,10 +1,10 @@
 public class Leg {
 
     private TurnDirection turn;
-    private static String street;
+    private static Street street;
 
 
-    public Leg(TurnDirection turn, String street) {
+    public Leg(TurnDirection turn, Street street) {
         this.turn = turn;
         this.street = street;
 
@@ -14,7 +14,7 @@ public class Leg {
         return turn;
     }
 
-    public static String getStreet() {
+    public static Street getStreet() {
         return street;
     }
 

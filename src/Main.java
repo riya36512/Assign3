@@ -18,17 +18,20 @@ public class Main {
         obj.addStreet("F",p1,p5);
         ArrayList<Street> print=(ArrayList<Street>) obj.streets;
 
-
-        Leg leg1 = new Leg(TurnDirection.Right,"A");
-        Leg leg2 = new Leg(TurnDirection.Straight,"C");
-        Leg leg3 = new Leg(TurnDirection.Straight,"E");
+        Street s1 = new Street("A",p1,p2);
+        Street s2 = new Street("C",p2,p3);
+        Street s3 = new Street("E",p3,p5);
+        Leg leg1 = new Leg(TurnDirection.Right,s1);
+        Leg leg2 = new Leg(TurnDirection.Straight,s2);
+        Leg leg3 = new Leg(TurnDirection.Straight,s3);
         ArrayList<Leg> LEGS  = new ArrayList<>();
         LEGS.add(leg1);
         LEGS.add(leg2);
         LEGS.add(leg3);
 
+        Street s4 = new Street("F",p1,p5);
         Route rou1 = new Route(LEGS);
-        Boolean ans  = rou1.appendTurn(TurnDirection.Right,"F");
+        Boolean ans  = rou1.appendTurn(TurnDirection.Right,s4);
         System.out.println(ans);
         rou1.streetPassLength(print);
         int totalLegs = Route.legs();
@@ -37,8 +40,8 @@ public class Main {
         System.out.println(Route.turnOnto(2));
         System.out.println(Route.turnDirection(4));
 
-//        double length = rou1.length();
-//        System.out.println(length);
+        double length = rou1.length();
+        System.out.println(length);
 
         Location l1 = new Location("A",StreetSide.Right);
         obj.depotLocation(l1);
